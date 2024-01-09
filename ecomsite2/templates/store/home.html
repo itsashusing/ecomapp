@@ -1,0 +1,77 @@
+{% extends 'store/base.html' %}
+{% block bodyblock %}
+<div class="row">
+    <div class="col-1">
+        <h4 class="text-center ml-1">Category</h4>
+        <hr>
+        <ul>
+            <a class="nav-link" href="/">All Products</a>
+            {% for category in cat %}
+            <a class="nav-link" href="/{{category.id}}">{{category.name}} </a>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-11 mb-2 ">
+        <div class="row g-2">
+            {% for product in page_obj %}
+            <div class="col-3">
+                <div class="card">
+                    <img src="{{product.image.url}}" class="card-img-top" alt="image"
+                        style=" min-width: 200px; min-height: 200px; max-height: 220px;">
+
+                    <span class="badge rounded-pill text-bg-light">Cat: {{product.category.name}} </span>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Name:{{product.name | truncatechars:10}} </h5>
+                        <p class="card-text">Discription: {{product.discription | truncatechars:25}}
+                        </p>
+                        {% if product.sale_price %}
+                        <del>{{product.price}}</del>
+                        <span class="badge rounded-pill text-bg-warning">Sale Price: {{product.sale_price}}</span>
+                        {% else %}
+                        <span class="badge rounded-pill text-bg-secondary">Price: {{product.price}}</span>
+                        {% endif %}
+                        <div><a class="btn btn-success btn-sm form-control my-1" href="/product/{{product.id}}">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="Page navigation example ">
+            <ul class="pagination justify-content-center my-4">
+    
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; first</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link " href="?page={{ page_obj.previous_page_number }}">previous</a>
+                </li>
+                {% endif %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="">{{ page_obj.number }}
+                    </a>
+                </li>
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Container Div -->
+<footer>
+    <div class="container-fluid" style="background-color: black;">
+        <div class="text-center m-2 p-2">
+            <h2>Djago Demo Cart</h2>
+        </div>
+    </div>
+</footer>
+</div>
+{% endblock %}

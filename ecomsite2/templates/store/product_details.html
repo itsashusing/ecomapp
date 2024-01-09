@@ -1,0 +1,77 @@
+{% extends 'store/base.html' %}
+{% block bodyblock %}
+<div class="container mb-4">
+    <div class="row gy-5">
+        <div class="card mb-3 col-6">
+            <div class="row g-0">
+                <div class="col-md-4 my-4">
+                    <img src="{{product.image.url}}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}} </h5>
+                        <p class="card-text">{{product.discription}} </p>
+                        <hr>
+                        <p class="card-text"> {% if product.sale_price %}
+                        <p> <del>₹ {{product.price}}</del>
+                            <b>Total savings: </b> <span class="badge bg-secondary">{{product.savings}} ₹</span> <br>
+                        <h4>
+
+                            <span class="badge rounded-pill text-bg-warning">Sale Price: {{product.sale_price}}</span>
+                        </h4>
+                        </p>
+                        {% else %}
+                        <h4>
+                            <span class="badge rounded-pill text-bg-secondary">Price: {{product.price}}</span>
+
+                        </h4>
+                        {% endif %}
+                        </p>
+
+                        <div>
+                            <a class="btn btn-success btn-sm form-control my-1" href="/add_product/{{product.id}}">Add-Cart</a>
+                            <a class="btn btn-warning btn-sm form-control my-1" href="/">Home page</a>
+                        </div>
+
+                        <!-- card body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 ">
+            <h1 class="text-center" style="background-color: rgb(201, 201, 49);">Newely added</h1>
+            {% for sp in side_products %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="{{sp.image.url}}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{sp.name}}</h5>
+                      <p class="card-text">{{sp.discription}}</p>
+                      <p class="card-text"><small class="text-muted"> {{sp.category.name}} </small>
+                        
+                        {% if sp.sale_price %}
+                        <span> <del>{{sp.price}} </del>  Rs. {{sp.sale_price}}  <a class="btn btn-primary btn-sm" href="/product/{{sp.id}}">View</a> </span>
+                        {% else %}
+                        <span>{{sp.price}}  <a class="btn btn-primary btn-sm" href="/product/{{sp.id}}">View</a> </span>
+                        {% endif %}
+                    </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        <div>
+            <!-- <small class="text-muted">Last updated 3 mins ago</small> -->
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'store/base.html' %}
+{% block bodyblock %}
+<style>
+    .helptext {
+        display: none;
+    }
+</style>
+<div class="container text-center">
+    <h1>Register yourself to Django Cart</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="btn btn-primary" type="submit" value="SignUp">
+    </form>
+    <span>Already have an account <small><a href="/accounts/login">click here</a></small></span>
+</div>
+{% endblock %}

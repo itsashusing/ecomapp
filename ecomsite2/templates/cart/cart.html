@@ -1,0 +1,91 @@
+{% extends 'store/base.html' %}
+{% block bodyblock %}
+<div class="text-center">
+    {% if cart_items %}
+    <h1> Cart Summery </h1>
+
+    <div class="card">
+        <div class="row">
+            <div class="container cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col">
+                            <h4><b>Shopping Cart</b></h4>
+                        </div>
+                        <div class="col align-self-center text-right text-muted">{{order_count}} items</div>
+                    </div>
+                </div>
+                <div class="row border-top border-bottom">
+                    {% for cart in cart_items %}
+                    <div class="row main align-items-center">
+
+                        <div class="col-2">
+                            <a href="/product/{{cart.product.id}}">
+                                <img class="img-fluid p-2" src="{{cart.product.image.url}}">
+                            </a>
+
+                        </div>
+                        <div class="col">
+                            <div class="row text-muted">{{cart.product.category.name}}</div>
+                            <div class="row">{{cart.product.name}}</div>
+                        </div>
+                        <div class="col">
+                            <a href="/remove_single_product/{{cart.product.id}}" style="font-size: 2rem;">-</a>
+                            <button class="border">{{cart.quantity}}</button>
+                            <a href="/add_product/{{cart.product.id}}/" style="font-size: 2rem;">+</a>
+                        </div>
+                        {% if cart.product.sale_price %}
+                        <div class="col">₹ {{cart.product.sale_price}}</div>
+                        <div class="col">₹ {{cart.total_price}} <a class="close"
+                                href="/remove_product/{{cart.product.id}}">&#10005;</a>
+
+                            </span></div>
+                        {% else %}
+                        <div class="col"> ₹ {{cart.product.price}}</div>
+                        <div class="col">₹ {{cart.total_price}}<a class="close"
+                                href="/remove_product/{{cart.product.id}}">&#10005;</a>
+
+                            </span></div>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="back-to-shop"><a class="btn btn-primary btn-sm my-4 " href="/">Back to shop</a></div>
+            </div>
+
+        </div>
+        <!-- Sile Panal -->
+        <div class="container summary my-4">
+            <div>
+                <h5><b>Summary</b></h5>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col" style="padding-left:0;">ITEMS {{order_count}} </div>
+                <div class="col text-right">Total</div>
+            </div>
+
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right">₹ {{total}}</div>
+            </div>
+            {% if request.user.is_authenticated %}
+            <form action="/myorder/" method="post">
+                {% csrf_token %}
+                <button name="order" value="order" type="submit" class="btn btn-success">Confirm Order</button>
+            </form>
+            {% else %}
+            <span>First log in to proceed <a href="#"> login</a></span>
+
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <h1> No item in cart </h1>
+    <a class="btn btn-primary" href="/">Continew Shopping</a>
+</div>
+{% endif %}
+
+</div>
+{% endblock %}
